@@ -13,23 +13,24 @@ Clay_RenderCommandArray CreateLayout() {
         CLAY_LAYOUT({
             .sizing = { .width = GetScreenWidth(), .height = GetScreenHeight() }
         }),
-        CLAY_RECTANGLE({ .color = COLOR_BLUE })
+        CLAY_RECTANGLE({ .color = COLOR_BACKGROUND })
     ) {
 
         CLAY(
             CLAY_ID("SideBar"),
             CLAY_LAYOUT({
                 .layoutDirection = { CLAY_TOP_TO_BOTTOM },
-                .sizing = { .width = CLAY_SIZING_FIXED(50), .height = GetScreenHeight() },
+                .sizing = { .width = CLAY_SIZING_FIXED(60), .height = GetScreenHeight() },
                 .padding = { .y = 20 },
                 .childAlignment = { .x = CLAY_ALIGN_X_CENTER },
                 .childGap = 20
             }),
-            CLAY_RECTANGLE({ .color = COLOR_LIGHT })
+            CLAY_RECTANGLE({ .color = COLOR_SIDEBAR_BACKGROUND }),
+            CLAY_BORDER({ .right = { 4, COLOR_SIDEBAR_BORDER } })
         ) {
 
             for (int i = 0; i < 5; ++i) {
-                COMPONENT_SIDEBAR_ITEM();
+                COMPONENT_SIDEBAR_ITEM(COLOR_SIDEBAR_ITEM, COLOR_SIDEBAR_ITEM_HOVER);
             }
 
         }
@@ -43,13 +44,13 @@ Clay_RenderCommandArray CreateLayout() {
                 .padding = { .x = 40 },
                 .childGap = 30
             }),
-            CLAY_RECTANGLE({ .color = COLOR_RED })
+            CLAY_RECTANGLE({ .color = COLOR_TITLEBAR_BACKGROUND })
         ) {
 
             char* titleBoxTexts[4] = {"File", "Edit", "View", "Help"};
 
             for (int i = 0; i < 4; ++i) {
-                COMPONENT_TITLEBAR_ITEM(titleBoxTexts[i]);
+                COMPONENT_TITLEBAR_ITEM(COLOR_TITLEBAR_ITEM, COLOR_TEXT, titleBoxTexts[i]);
             }
 
         }
