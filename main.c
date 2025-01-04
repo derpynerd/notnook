@@ -25,6 +25,7 @@ int main() {
     });
 
     Clay_SetMeasureTextFunction(Raylib_MeasureText);
+    Clay_SetDebugModeEnabled(true); // Debugging mode enabled
 
     Raylib_fonts[FONT_ID_BODY_16] = (Raylib_Font) {
         .font = LoadFontEx("resources/Roboto-Regular.ttf", 48, 0, 400),
@@ -42,12 +43,13 @@ int main() {
             SetMouseCursor(MOUSE_CURSOR_ARROW);
         }
 
+        Clay_SetPointerState((Clay_Vector2) { GetMouseX(), GetMouseY() }, IsMouseButtonDown(MOUSE_BUTTON_LEFT)); // Capture mouse state
+
         /* UI Layout */ 
         Clay_RenderCommandArray renderCommands = CreateLayout();
 
         /* Rendering logic */
         BeginDrawing();
-        ClearBackground(RAYWHITE);
         Clay_Raylib_Render(renderCommands);
         EndDrawing();
 
