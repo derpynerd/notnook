@@ -1,7 +1,6 @@
 CC = gcc # specifying compiler
 CFLAGS = -Wall -std=c99 # compiler flags 
-LDFLAGS = -lraylib -lgdi32 -lwinmm
-
+LDFLAGS = -lraylib -lgdi32 -lwinmm -lsqlite3
 all: main run
 
 main: main.c
