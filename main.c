@@ -13,7 +13,7 @@
 int main() {
 
     /* Setup */
-    Clay_Raylib_Initialize(screenWidth, screenHeight, "notnook", 
+    Clay_Raylib_Initialize(screenWidth, screenHeight, APP_NAME, 
     FLAG_WINDOW_HIGHDPI | FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
 
     uint64_t clayRequiredMemory = Clay_MinMemorySize();
@@ -27,16 +27,22 @@ int main() {
     Clay_SetMeasureTextFunction(Raylib_MeasureText);
     Clay_SetDebugModeEnabled(true); // Debugging mode enabled
 
-    Raylib_fonts[FONT_ID_BODY_16] = (Raylib_Font) {
-        .font = LoadFontEx("resources/Roboto-Regular.ttf", 48, 0, 400),
-        .fontId = FONT_ID_BODY_16
+    Raylib_fonts[APP_FONT_ID_BODY_16] = (Raylib_Font) {
+        .font = LoadFontEx(APP_FONT_PATH, 48, 0, 400),
+        .fontId = APP_FONT_ID_BODY_16
     };
-    SetTextureFilter(Raylib_fonts[FONT_ID_BODY_16].font.texture, TEXTURE_FILTER_BILINEAR);
+    SetTextureFilter(Raylib_fonts[APP_FONT_ID_BODY_16].font.texture, TEXTURE_FILTER_BILINEAR);
+
+    Image logo = LoadImage(APP_LOGO_PATH);
+    ImageFormat(&logo, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+    SetWindowIcon(logo);
 
     char* errorMessage = NotNook_SetupDatabase();
     if (errorMessage != NULL) {
         printf(errorMessage);
         // TODO : display error popup on screen - errorPopup(errorMessage);
+    } else {
+        printf("Database setup successful\n");
     }
 
     // Game loop
@@ -45,7 +51,6 @@ int main() {
         /* Pre render logic */
         if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) { // Fix this - Only update when inside button
             SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
-            NotNook_GetNotes(); // TODO : Work out when to call this
         } else {
             SetMouseCursor(MOUSE_CURSOR_ARROW);
         }
