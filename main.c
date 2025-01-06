@@ -10,6 +10,8 @@
 
 #include "layout.c"
 
+static bool debugEnabled = false;
+
 int main() {
 
     /* Setup */
@@ -25,8 +27,6 @@ int main() {
     });
 
     Clay_SetMeasureTextFunction(Raylib_MeasureText);
-    Clay_SetDebugModeEnabled(true); // Debugging mode enabled
-
     Raylib_fonts[APP_FONT_ID_BODY_16] = (Raylib_Font) {
         .font = LoadFontEx(APP_FONT_PATH, 48, 0, 400),
         .fontId = APP_FONT_ID_BODY_16
@@ -37,7 +37,7 @@ int main() {
     ImageFormat(&logo, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
     SetWindowIcon(logo);
 
-    char* errorMessage = NotNook_SetupDatabase();
+    char* errorMessage = Database_Setup();
     if (errorMessage != NULL) {
         printf(errorMessage);
         // TODO : display error popup on screen - errorPopup(errorMessage);
@@ -46,16 +46,27 @@ int main() {
     }
 
     // Game loop
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose()) { // Detect window close button or ESC key
         
-        /* Pre render logic */
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) { // Fix this - Only update when inside button
-            SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
-        } else {
-            SetMouseCursor(MOUSE_CURSOR_ARROW);
+        if (IsKeyPressed(KEY_D)) {
+            debugEnabled = !debugEnabled; // T flip-flop
+            Clay_SetDebugModeEnabled(debugEnabled);
         }
 
-        Clay_SetPointerState((Clay_Vector2) { GetMouseX(), GetMouseY() }, IsMouseButtonDown(MOUSE_BUTTON_LEFT)); // Capture mouse state
+        bool isMouseDown = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+
+        /* Pre-render updates */
+        Clay_Vector2 mousePosition = { GetMouseX(), GetMouseY() };
+        Clay_SetPointerState(mousePosition, isMouseDown);
+
+        Vector2 mouseWheelDelta = GetMouseWheelMoveV();
+        float mouseWheelX = mouseWheelDelta.x;
+        float mouseWheelY = mouseWheelDelta.y;
+        Clay_UpdateScrollContainers(
+            true,                                           // Enable drag scrolling
+            (Clay_Vector2) { mouseWheelX, mouseWheelY },    // Clay_Vector2 scrollwheel / trackpad scroll x and y delta this frame
+            GetFrameTime()                                  // Time since last frame in seconds as a float e.g. 8ms is 0.008f
+        );
 
         /* UI Layout */ 
         Clay_RenderCommandArray renderCommands = CreateLayout();
