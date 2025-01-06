@@ -2,13 +2,26 @@
 
 #include "../includes/clay.h"
 
-/* Clay Constants */
-const int FONT_ID_BODY_16 = 0;
+/* Clay Init Constants */
+const char* APP_NAME = "notnook";
+const char* APP_LOGO_PATH = "resources/book.png";
+const char* APP_FONT_PATH = "resources/Roboto-Regular.ttf";
+const int APP_FONT_ID_BODY_16 = 0;
 
 /* Database Constants */
 const char* DATABASE_PATH = "resources/notes.db";
 const char* DATABASE_ERROR_FAILED_TO_OPEN_DATABASE = "FAILED_TO_OPEN_DATABASE";
-const char* DATABASE_ERROR_FAILED_TO_CREATE_TABLE = "FAILED_TO_CREATE_TABLE";
+const char* DATABASE_ERROR_FAILED_TO_EXEC_QUERY = "FAILED_TO_EXEC_QUERY";
+
+/* Note Constants */
+typedef struct {
+    char** titles;
+    unsigned int count;
+} NoteTitles;
+
+const unsigned int NOTE_MAX_COUNT = 15;
+
+char* noteIds[15] = {"Note1", "Note2", "Note3", "Note4", "Note5", "Note6", "Note7", "Note8", "Note9", "Note10", "Note11", "Note12", "Note13", "Note14", "Notes15"};
 
 /* Screen Constants */
 const int screenWidth = 800;
@@ -38,7 +51,7 @@ const Clay_Color COLOR_SIDEBAR_ITEM = (Clay_Color) {74, 144, 226, 255}; // muted
 const Clay_Color COLOR_SIDEBAR_ITEM_HOVER = (Clay_Color) {90, 155, 255, 255}; // lighter blue
 const Clay_Color COLOR_SIDEBAR_BORDER = (Clay_Color) {85, 85, 85, 255}; // medium gray
 
-const Clay_Color COLOR_FOOTER_BACKGROUND = (Clay_Color) {35, 35, 35, 255}; // dark-ish gray
+const Clay_Color COLOR_FOOTER_BACKGROUND = (Clay_Color) {45, 45, 45, 255}; // dark-ish gray
 const Clay_Color COLOR_FOOTER_ITEM = (Clay_Color) {176, 176, 176, 255}; // light gray
 const Clay_Color COLOR_FOOTER_ITEM_HOVER = (Clay_Color) {26, 115, 232, 255}; // blue
 
