@@ -10,7 +10,7 @@
 static sqlite3 *database;
 char* errorMessage;
 
-char* ExecQuery(char* query, int (*callback)(void*,int,char**,char**), void* store) {
+char* ExecPostQuery(char* query) {
 
     int exit = 0;
 
@@ -20,7 +20,7 @@ char* ExecQuery(char* query, int (*callback)(void*,int,char**,char**), void* sto
         return (char *)DATABASE_ERROR_FAILED_TO_OPEN_DATABASE;
     }
 
-    exit = sqlite3_exec(database, query, callback, store, &errorMessage);
+    exit = sqlite3_exec(database, query, NULL, NULL, &errorMessage);
     if (exit != SQLITE_OK) {
         fprintf(stderr ,"%s: %s\n", DATABASE_ERROR_FAILED_TO_EXEC_QUERY, errorMessage);
         sqlite3_free(errorMessage);
@@ -33,24 +33,14 @@ char* ExecQuery(char* query, int (*callback)(void*,int,char**,char**), void* sto
 }
 
 char* Database_Setup() {
-    char* createTableQuery = "CREATE TABLE IF NOT EXISTS notes ("
-                            "id INTEGER PRIMARY KEY,"
-                            "title TEXT NOT NULL,"
-                            "content TEXT,"
-                            "created_time TEXT);";
-    
-    return ExecQuery(createTableQuery, NULL, NULL);
+    return ExecPostQuery(DATABASE_SETUP_TABLE_QUERY);
 }
 
-char* Database_SaveNote() { // get values from arguments
-    char* saveQuery = "INSERT INTO notes (title, content, created_time) VALUES ('balls', 'Test Content 2', datetime('now'));";
-    
-    return ExecQuery(saveQuery, NULL, NULL);
+char* Database_SaveNote() { 
+    return ExecPostQuery(DATABASE_SAVE_NOTE_QUERY);
 }
 
 void* Database_GetAllNotes() {
-
-    char* query = "SELECT title FROM notes;";
 
     sqlite3_stmt *pstmt; // prepared statements corresponding to sql
     int rc; // return code from sqlite
@@ -62,7 +52,7 @@ void* Database_GetAllNotes() {
         return NULL;
     }
 
-    rc = sqlite3_prepare_v3(database, query, -1, 0, &pstmt, NULL);
+    rc = sqlite3_prepare_v3(database, DATABASE_GET_TITLES_QUERY, -1, 0, &pstmt, NULL);
     if ( rc ) {
         fprintf(stderr ,"%s: %s\n", DATABASE_ERROR_FAILED_TO_EXEC_QUERY, sqlite3_errmsg(database));
         sqlite3_finalize(pstmt);

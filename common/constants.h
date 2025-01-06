@@ -13,6 +13,14 @@ const char* DATABASE_PATH = "resources/notes.db";
 const char* DATABASE_ERROR_FAILED_TO_OPEN_DATABASE = "FAILED_TO_OPEN_DATABASE";
 const char* DATABASE_ERROR_FAILED_TO_EXEC_QUERY = "FAILED_TO_EXEC_QUERY";
 
+const char* DATABASE_SETUP_TABLE_QUERY =    "CREATE TABLE IF NOT EXISTS notes ("
+                                            "id INTEGER PRIMARY KEY,"
+                                            "title TEXT NOT NULL,"
+                                            "content TEXT,"
+                                            "created_time TEXT);";
+const char* DATABASE_SAVE_NOTE_QUERY = "INSERT INTO notes (title, content, created_time) VALUES ('balls', 'Test Content 2', datetime('now'));";
+const char* DATABASE_GET_TITLES_QUERY = "SELECT title FROM notes;";
+
 /* Note Constants */
 typedef struct {
     char** titles;
