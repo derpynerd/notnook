@@ -1,8 +1,10 @@
 #pragma once 
 
 #include "common/constants.h"
-
 #include "includes/clay.h"
+
+static bool updateNotes = true;
+static NoteTitles* notes;
 
 Clay_RenderCommandArray CreateLayout() {
 
@@ -18,6 +20,7 @@ Clay_RenderCommandArray CreateLayout() {
 
         CLAY(
             CLAY_ID("SideBar"),
+            CLAY_SCROLL({ .vertical = true }),
             CLAY_LAYOUT({
                 .layoutDirection = { CLAY_TOP_TO_BOTTOM },
                 .sizing = { .width = CLAY_SIZING_FIXED(sidebarWidth), .height = CLAY_SIZING_FIXED(sidebarHeight) },
@@ -25,16 +28,20 @@ Clay_RenderCommandArray CreateLayout() {
                 .childAlignment = { .x = CLAY_ALIGN_X_CENTER },
                 .childGap = 10
             }),
-            CLAY_RECTANGLE({ .color = COLOR_SIDEBAR_BACKGROUND }),
-            CLAY_BORDER({ .right = { 4, COLOR_SIDEBAR_BORDER } })
+            CLAY_RECTANGLE({ .color = COLOR_SIDEBAR_BACKGROUND })
         ) {
 
-            char* noteIds[5] = {"Note1", "Note2", "Note3", "Note4", "Note5"};
-
-            for (int i = 0; i < 5; ++i) {
-                COMPONENT_SIDEBAR_ITEM(noteIds[i], COLOR_TEXT, COLOR_HIGHLIGHTED_TEXT, COLOR_SIDEBAR_ITEM, COLOR_SIDEBAR_ITEM_HOVER);
+            if (updateNotes) {
+                notes = Database_GetAllNotes();
+                updateNotes = false;
             }
 
+            notes->count = notes->count % NOTE_MAX_COUNT;
+            for (int i = 0; i < notes->count; ++i) {
+                COMPONENT_SIDEBAR_ITEM(noteIds[i], notes->titles[i]);
+            }
+
+            COMPONENT_SCROLLBAR();
         }
 
         CLAY(
