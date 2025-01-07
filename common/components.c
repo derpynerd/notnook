@@ -17,7 +17,7 @@ void COMPONENT_SIDEBAR_ITEM(char* noteId, char* noteTitle) {
     ) {
         CLAY_TEXT(
             CLAY_STRING(noteTitle),
-            CLAY_TEXT_CONFIG({ .fontSize = 16, .textColor = Clay_Hovered() ? COLOR_HIGHLIGHTED_TEXT : COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NEWLINES })
+            CLAY_TEXT_CONFIG({ .fontSize = 16, .textColor = Clay_Hovered() ? COLOR_HIGHLIGHTED_TEXT : COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NONE })
         );
 
         // if (Clay_Hovered()) {
@@ -50,4 +50,35 @@ void COMPONENT_SCROLLBAR() {
         }
     }
 
+}
+
+void COMPONENT_CREATION_DATE(char* createdString) {
+    CLAY(
+        CLAY_ID("CreatedDateString"),
+        CLAY_LAYOUT({
+            .sizing = { .width = CLAY_SIZING_FIXED(createdDateWidth), .height = CLAY_SIZING_FIXED(createdDateHeight) },
+            .childAlignment = { .x = CLAY_ALIGN_X_CENTER, .y = CLAY_ALIGN_Y_CENTER },
+        })
+    ) {
+        CLAY_TEXT(
+            CLAY_STRING(createdString),
+            CLAY_TEXT_CONFIG({ .fontSize = 14, .textColor = COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NEWLINES })
+        );
+    }
+}
+
+void COMPONENT_SAVE_BUTTON() {
+    CLAY(
+        CLAY_ID("SaveButton"),
+        CLAY_LAYOUT({
+            .sizing = { .width = CLAY_SIZING_FIXED(saveButtonWidth), .height = CLAY_SIZING_FIXED(saveButtonHeight) },
+            .childAlignment = { .x = CLAY_ALIGN_X_CENTER, .y = CLAY_ALIGN_Y_CENTER },
+        }),
+        CLAY_RECTANGLE({ .color = Clay_Hovered() ? COLOR_SIDEBAR_ITEM_HOVER : COLOR_SIDEBAR_ITEM, .cornerRadius = { 5.0f, 5.0f, 5.0f, 5.0f } })
+    ) {
+        CLAY_TEXT(
+            CLAY_STRING(STRING_SAVE),
+            CLAY_TEXT_CONFIG({ .fontSize = 18, .textColor = COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NONE })
+        );
+    }
 }

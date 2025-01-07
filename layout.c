@@ -4,7 +4,9 @@
 #include "includes/clay.h"
 
 static bool updateNotes = true;
+static bool updateCurrentNote = true;
 static NoteTitles* notes;
+char* createdString;
 
 Clay_RenderCommandArray CreateLayout() {
 
@@ -68,21 +70,33 @@ Clay_RenderCommandArray CreateLayout() {
                     .layoutDirection = { CLAY_LEFT_TO_RIGHT },
                     .sizing = { .width = CLAY_SIZING_FIXED(footerWidth), .height = CLAY_SIZING_FIXED(footerHeight) },
                     .childAlignment = { .y = CLAY_ALIGN_Y_CENTER },
-                    .padding = { .x = 40 },
-                    .childGap = 30
+                    .childGap = textAreaWidth - createdDateWidth - saveButtonWidth - 20
                 }),
                 CLAY_RECTANGLE({ .color = COLOR_FOOTER_BACKGROUND })
             ) {
 
+                if (updateCurrentNote) {
+                    char* datetime = "2025-01-05 20:52:28"; // TODO : get via query
+                    const size_t created_len = strlen(STRING_CREATED);
+                    const size_t datetime_len = strlen(datetime);
+
+                    // Concat Created + datetime
+                    createdString = malloc(created_len + datetime_len + 1000); // +1 for null-terminator
+                    memcpy(createdString, STRING_CREATED, created_len);
+                    memcpy(createdString + created_len, datetime, datetime_len + 1); // +1 to copy null-terminator
+
+                    updateCurrentNote = false;
+                }
+
                 // TODO : Text field displaying creation date
+                COMPONENT_CREATION_DATE(createdString);                
 
                 // TODO : Button to save note
+                COMPONENT_SAVE_BUTTON();
 
             }
 
-
         }
-
 
 
     }

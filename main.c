@@ -42,7 +42,7 @@ int main() {
         printf(errorMessage);
         // TODO : display error popup on screen - errorPopup(errorMessage);
     } else {
-        printf("Database setup successful\n");
+        printf("INFO: SQLITE: Database setup successful\n");
     }
 
     // Game loop

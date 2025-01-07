@@ -31,6 +31,9 @@ const unsigned int NOTE_MAX_COUNT = 15;
 
 char* noteIds[15] = {"Note1", "Note2", "Note3", "Note4", "Note5", "Note6", "Note7", "Note8", "Note9", "Note10", "Note11", "Note12", "Note13", "Note14", "Notes15"};
 
+const char* STRING_CREATED = "Created ";
+const char* STRING_SAVE = "Save";
+
 /* Screen Constants */
 const int screenWidth = 800;
 const int screenHeight = 600;
@@ -40,14 +43,20 @@ const int sidebarHeight = screenHeight;
 const int sidebarItemWidth = sidebarWidth - 20;
 const int sidebarItemHeight = 30;
 
-const int mainContentWidth = screenWidth - sidebarWidth;
-const int mainContentHeight = screenHeight;
+const int mainContentWidth = screenWidth - sidebarWidth; // 580
+const int mainContentHeight = screenHeight; // 600
 
 const int footerWidth = screenWidth;
 const int footerHeight = 70;
 
-const int textAreaWidth = screenWidth - sidebarWidth;
-const int textAreaHeight = screenHeight - footerHeight;
+const int textAreaWidth = screenWidth - sidebarWidth; // 580
+const int textAreaHeight = screenHeight - footerHeight; // 530
+
+const int createdDateWidth = 120;
+const int createdDateHeight = 40;
+
+const int saveButtonWidth = 80;
+const int saveButtonHeight = 40;
 
 /* Theme Colors */
 const Clay_Color COLOR_BACKGROUND = (Clay_Color) {18, 18, 18, 255}; // dark gray
