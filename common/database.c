@@ -74,6 +74,7 @@ void* Database_GetAllNotes() {
     noteTitles->titles = titles;
     noteTitles->count = count;
 
+    free(titles);
     sqlite3_finalize(pstmt);
     sqlite3_close_v2(database);
 

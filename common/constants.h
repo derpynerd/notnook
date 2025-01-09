@@ -3,10 +3,10 @@
 #include "../includes/clay.h"
 
 /* Clay Init Constants */
+const int APP_FONT_ID_BODY_16 = 0;
 const char* APP_NAME = "notnook";
 const char* APP_LOGO_PATH = "resources/book.png";
 const char* APP_FONT_PATH = "resources/Roboto-Regular.ttf";
-const int APP_FONT_ID_BODY_16 = 0;
 
 /* Database Constants */
 const char* DATABASE_PATH = "resources/notes.db";

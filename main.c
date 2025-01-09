@@ -26,13 +26,15 @@ int main() {
        .height = GetScreenHeight()
     });
 
-    Clay_SetMeasureTextFunction(Raylib_MeasureText);
+    Clay_SetMeasureTextFunction(Raylib_MeasureText); 
+    // Load and set font from font-file
     Raylib_fonts[APP_FONT_ID_BODY_16] = (Raylib_Font) {
         .font = LoadFontEx(APP_FONT_PATH, 48, 0, 400),
         .fontId = APP_FONT_ID_BODY_16
     };
     SetTextureFilter(Raylib_fonts[APP_FONT_ID_BODY_16].font.texture, TEXTURE_FILTER_BILINEAR);
 
+    // Load logo image -> transform to R8G8B8A8 format -> Set as window icon
     Image logo = LoadImage(APP_LOGO_PATH);
     ImageFormat(&logo, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
     SetWindowIcon(logo);
@@ -47,15 +49,14 @@ int main() {
 
     // Game loop
     while (!WindowShouldClose()) { // Detect window close button or ESC key
-        
+    
+        /* Update pointer state */
         if (IsKeyPressed(KEY_D)) {
             debugEnabled = !debugEnabled; // T flip-flop
             Clay_SetDebugModeEnabled(debugEnabled);
         }
 
         bool isMouseDown = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-
-        /* Pre-render updates */
         Clay_Vector2 mousePosition = { GetMouseX(), GetMouseY() };
         Clay_SetPointerState(mousePosition, isMouseDown);
 
@@ -68,10 +69,10 @@ int main() {
             GetFrameTime()                                  // Time since last frame in seconds as a float e.g. 8ms is 0.008f
         );
 
-        /* UI Layout */ 
+        /* Render Clay UI */ 
         Clay_RenderCommandArray renderCommands = CreateLayout();
 
-        /* Rendering logic */
+        /* Raylib window drawing logic */
         BeginDrawing();
         Clay_Raylib_Render(renderCommands);
         EndDrawing();

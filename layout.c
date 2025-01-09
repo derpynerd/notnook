@@ -76,7 +76,7 @@ Clay_RenderCommandArray CreateLayout() {
             ) {
 
                 if (updateCurrentNote) {
-                    char* datetime = "2025-01-05 20:52:28"; // TODO : get via query
+                    char* datetime = "2025-01-05 20:52:28"; // TODO : get date via query
                     const size_t created_len = strlen(STRING_CREATED);
                     const size_t datetime_len = strlen(datetime);
 
