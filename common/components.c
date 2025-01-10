@@ -6,7 +6,7 @@
 
 #include "constants.h"
 
-void COMPONENT_SIDEBAR_ITEM(char* noteId, char* noteTitle) {
+void COMPONENT_SIDEBAR_ITEM(char* noteId, Clay_String noteTitle) {
     CLAY(
         CLAY_ID(noteId),
         CLAY_LAYOUT({ 
@@ -16,8 +16,8 @@ void COMPONENT_SIDEBAR_ITEM(char* noteId, char* noteTitle) {
         CLAY_RECTANGLE({ .color = Clay_Hovered() ? COLOR_SIDEBAR_ITEM_HOVER : COLOR_SIDEBAR_ITEM, .cornerRadius = { 5.0f, 5.0f, 5.0f, 5.0f } })
     ) {
         CLAY_TEXT(
-            CLAY_STRING(noteTitle),
-            CLAY_TEXT_CONFIG({ .fontSize = 16, .textColor = Clay_Hovered() ? COLOR_HIGHLIGHTED_TEXT : COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NONE })
+            noteTitle,
+            CLAY_TEXT_CONFIG({ .fontSize = 16, .textColor = Clay_Hovered() ? COLOR_HIGHLIGHTED_TEXT : COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_WORDS })
         );
 
         // if (Clay_Hovered()) {
@@ -52,7 +52,7 @@ void COMPONENT_SCROLLBAR() {
 
 }
 
-void COMPONENT_CREATION_DATE(char* createdString) {
+void COMPONENT_CREATION_DATE(Clay_String createdString) {
     CLAY(
         CLAY_ID("CreatedDateString"),
         CLAY_LAYOUT({
@@ -61,7 +61,7 @@ void COMPONENT_CREATION_DATE(char* createdString) {
         })
     ) {
         CLAY_TEXT(
-            CLAY_STRING(createdString),
+            createdString,
             CLAY_TEXT_CONFIG({ .fontSize = 14, .textColor = COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NEWLINES })
         );
     }

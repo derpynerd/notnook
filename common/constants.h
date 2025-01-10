@@ -52,7 +52,7 @@ const int footerHeight = 70;
 const int textAreaWidth = screenWidth - sidebarWidth; // 580
 const int textAreaHeight = screenHeight - footerHeight; // 530
 
-const int createdDateWidth = 120;
+const int createdDateWidth = 180;
 const int createdDateHeight = 40;
 
 const int saveButtonWidth = 80;

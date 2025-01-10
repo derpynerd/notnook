@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <string.h>
+
 #include "common/constants.h"
 #include "includes/clay.h"
 
@@ -40,7 +42,7 @@ Clay_RenderCommandArray CreateLayout() {
 
             notes->count = notes->count % NOTE_MAX_COUNT;
             for (int i = 0; i < notes->count; ++i) {
-                COMPONENT_SIDEBAR_ITEM(noteIds[i], notes->titles[i]);
+                COMPONENT_SIDEBAR_ITEM(noteIds[i], (Clay_String) { .length = strlen(notes->titles[i]), .chars = (notes->titles[i]) });
             }
 
             COMPONENT_SCROLLBAR();
@@ -89,7 +91,7 @@ Clay_RenderCommandArray CreateLayout() {
                 }
 
                 // TODO : Text field displaying creation date
-                COMPONENT_CREATION_DATE(createdString);                
+                COMPONENT_CREATION_DATE((Clay_String) { .length = strlen(createdString), .chars = createdString});                
 
                 // TODO : Button to save note
                 COMPONENT_SAVE_BUTTON();
