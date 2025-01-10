@@ -20,12 +20,14 @@ const char* DATABASE_SETUP_TABLE_QUERY =    "CREATE TABLE IF NOT EXISTS notes ("
                                             "created_time TEXT);";
 const char* DATABASE_SAVE_NOTE_QUERY = "INSERT INTO notes (title, content, created_time) VALUES ('balls', 'Test Content 2', datetime('now'));";
 const char* DATABASE_GET_TITLES_QUERY = "SELECT title FROM notes;";
+const char* DATABASE_GET_CONTENTS_QUERY = "SELECT content FROM notes;";
+const char* DATABASE_GET_CREATED_DATE_QUERY  = "SELECT created_time FROM notes;";
 
 /* Note Constants */
 typedef struct {
-    char** titles;
+    char** data;
     unsigned int count;
-} NoteTitles;
+} Documents;
 
 const unsigned int NOTE_MAX_COUNT = 15;
 

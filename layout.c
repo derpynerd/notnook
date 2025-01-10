@@ -7,7 +7,9 @@
 
 static bool updateNotes = true;
 static bool updateCurrentNote = true;
-static NoteTitles* notes;
+static Documents* titles;
+static Documents* contents;
+static Documents* created_dates;
 char* createdString;
 
 Clay_RenderCommandArray CreateLayout() {
@@ -36,15 +38,15 @@ Clay_RenderCommandArray CreateLayout() {
         ) {
 
             if (updateNotes) {
-                notes = Database_GetAllNotes();
+                titles = Database_GetTitles();
                 updateNotes = false;
             }
 
-            notes->count = notes->count % NOTE_MAX_COUNT;
-            for (int i = 0; i < notes->count; ++i) {
+            titles->count = titles->count % NOTE_MAX_COUNT;
+            for (int i = 0; i < titles->count; ++i) {
                 COMPONENT_SIDEBAR_ITEM(
                 (Clay_String) { .length = strlen(noteIds[i]), .chars = noteIds[i] },
-                (Clay_String) { .length = strlen(notes->titles[i]), .chars = notes->titles[i] });
+                (Clay_String) { .length = strlen(titles->data[i]), .chars = titles->data[i] });
             }
 
             COMPONENT_SCROLLBAR();
@@ -93,7 +95,8 @@ Clay_RenderCommandArray CreateLayout() {
             ) {
 
                 if (updateCurrentNote) {
-                    char* datetime = "2025-01-05 20:52:28"; // TODO : get date via query
+                    created_dates = Database_GetCreatedDates();
+                    char* datetime = created_dates->data[0];
                     const size_t created_len = strlen(STRING_CREATED);
                     const size_t datetime_len = strlen(datetime);
 
@@ -105,10 +108,10 @@ Clay_RenderCommandArray CreateLayout() {
                     updateCurrentNote = false;
                 }
 
-                // TODO : Text field displaying creation date
+                // Text field displaying creation date
                 COMPONENT_CREATION_DATE((Clay_String) { .length = strlen(createdString), .chars = createdString});                
 
-                // TODO : Button to save note
+                // Button to save note
                 COMPONENT_SAVE_BUTTON();
 
             }
