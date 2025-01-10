@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #define CLAY_IMPLEMENTATION
-#include "includes/clay.h"
+#include "includes/clay-1.h"
 #include "includes/renderer/clay_renderer_raylib.c"
 
 #include "common/constants.h"
@@ -12,19 +12,23 @@
 
 static bool debugEnabled = false;
 
+void HandleClayErrors(Clay_ErrorData errorData) {
+    printf("%s", errorData.errorText.chars);
+}
+
 int main() {
 
     /* Setup */
     Clay_Raylib_Initialize(screenWidth, screenHeight, APP_NAME, 
-    FLAG_WINDOW_HIGHDPI | FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
+    FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_HIGHDPI | FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
 
     uint64_t clayRequiredMemory = Clay_MinMemorySize();
     Clay_Arena clayMemory = Clay_CreateArenaWithCapacityAndMemory(clayRequiredMemory, malloc(clayRequiredMemory));
 
-    Clay_Initialize(clayMemory, (Clay_Dimensions) {
-       .width = GetScreenWidth(),
-       .height = GetScreenHeight()
-    });
+    Clay_Initialize(
+        clayMemory,
+        (Clay_Dimensions) { .width = GetScreenWidth(), .height = GetScreenHeight()},
+        (Clay_ErrorHandler) { HandleClayErrors });
 
     Clay_SetMeasureTextFunction(Raylib_MeasureText); 
     // Load and set font from font-file

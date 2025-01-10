@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "common/constants.h"
-#include "includes/clay.h"
+#include "includes/clay-1.h"
 
 static bool updateNotes = true;
 static bool updateCurrentNote = true;
@@ -27,7 +27,7 @@ Clay_RenderCommandArray CreateLayout() {
             CLAY_SCROLL({ .vertical = true }),
             CLAY_LAYOUT({
                 .layoutDirection = { CLAY_TOP_TO_BOTTOM },
-                .sizing = { .width = CLAY_SIZING_FIXED(sidebarWidth), .height = CLAY_SIZING_FIXED(sidebarHeight) },
+                .sizing = { .width = CLAY_SIZING_FIXED(sidebarWidth), .height = GetScreenHeight() },
                 .padding = { .y = 20 },
                 .childAlignment = { .x = CLAY_ALIGN_X_CENTER },
                 .childGap = 10
@@ -42,7 +42,9 @@ Clay_RenderCommandArray CreateLayout() {
 
             notes->count = notes->count % NOTE_MAX_COUNT;
             for (int i = 0; i < notes->count; ++i) {
-                COMPONENT_SIDEBAR_ITEM(noteIds[i], (Clay_String) { .length = strlen(notes->titles[i]), .chars = (notes->titles[i]) });
+                COMPONENT_SIDEBAR_ITEM(
+                (Clay_String) { .length = strlen(noteIds[i]), .chars = noteIds[i] },
+                (Clay_String) { .length = strlen(notes->titles[i]), .chars = notes->titles[i] });
             }
 
             COMPONENT_SCROLLBAR();
@@ -52,7 +54,7 @@ Clay_RenderCommandArray CreateLayout() {
             CLAY_ID("MainContent"),
             CLAY_LAYOUT({
                 .layoutDirection = { CLAY_TOP_TO_BOTTOM },
-                .sizing = { .width = CLAY_SIZING_FIXED(mainContentWidth), .height = CLAY_SIZING_FIXED(mainContentHeight) }
+                .sizing = { .width = CLAY_SIZING_FIXED(mainContentWidth), .height = GetScreenHeight() }
             }),
             CLAY_RECTANGLE({ .color = COLOR_BACKGROUND })
         ) {
@@ -61,18 +63,31 @@ Clay_RenderCommandArray CreateLayout() {
                 CLAY_ID("TextArea"),
                 CLAY_LAYOUT({
                     .layoutDirection = { CLAY_TOP_TO_BOTTOM },
-                    .sizing = { .width = CLAY_SIZING_FIXED(textAreaWidth), .height = CLAY_SIZING_FIXED(textAreaHeight) }
+                    .sizing = { .width = CLAY_SIZING_PERCENT(100), .height = GetScreenHeight() * 0.6 }
                 }),
                 CLAY_RECTANGLE({ .color = COLOR_TEXTAREA_BACKGROUND })
-            ) {}
+            ) {
+
+                CLAY(
+                    CLAY_ID("TitleTextEditor"),
+                    CLAY_LAYOUT({
+                        .sizing = { .width = CLAY_SIZING_PERCENT(100), .height = CLAY_SIZING_GROW() }
+                    })
+                ) {}
+
+                CLAY(
+                    CLAY_ID("ContentTextEditor")
+                ) {}
+
+            }
             
             CLAY(
                 CLAY_ID("Footer"),
                 CLAY_LAYOUT({
                     .layoutDirection = { CLAY_LEFT_TO_RIGHT },
-                    .sizing = { .width = CLAY_SIZING_FIXED(footerWidth), .height = CLAY_SIZING_FIXED(footerHeight) },
+                    .sizing = { .width = GetScreenWidth(), .height = GetScreenHeight() * 0.15 },
                     .childAlignment = { .y = CLAY_ALIGN_Y_CENTER },
-                    .childGap = textAreaWidth - createdDateWidth - saveButtonWidth - 20
+                    .childGap = mainContentWidth - createdDateWidth - saveButtonWidth - 20
                 }),
                 CLAY_RECTANGLE({ .color = COLOR_FOOTER_BACKGROUND })
             ) {

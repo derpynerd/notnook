@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "../includes/clay.h"
+#include "../includes/clay-1.h"
 
 #include "constants.h"
 
-void COMPONENT_SIDEBAR_ITEM(char* noteId, Clay_String noteTitle) {
+void COMPONENT_SIDEBAR_ITEM(Clay_String noteId, Clay_String noteTitle) {
     CLAY(
-        CLAY_ID(noteId),
+        noteId,
         CLAY_LAYOUT({ 
             .sizing = { .width = CLAY_SIZING_FIXED(sidebarItemWidth), .height = CLAY_SIZING_FIXED(sidebarItemHeight) },
             .childAlignment = { .x = CLAY_ALIGN_X_CENTER, .y = CLAY_ALIGN_Y_CENTER }
@@ -77,7 +77,7 @@ void COMPONENT_SAVE_BUTTON() {
         CLAY_RECTANGLE({ .color = Clay_Hovered() ? COLOR_SIDEBAR_ITEM_HOVER : COLOR_SIDEBAR_ITEM, .cornerRadius = { 5.0f, 5.0f, 5.0f, 5.0f } })
     ) {
         CLAY_TEXT(
-            CLAY_STRING(STRING_SAVE),
+            CLAY_STRING("Save"),
             CLAY_TEXT_CONFIG({ .fontSize = 18, .textColor = COLOR_TEXT, .wrapMode = CLAY_TEXT_WRAP_NONE })
         );
     }
